@@ -8,14 +8,25 @@ import SearchContact from './components/SearchContact';
 
 export default class Mobile extends React.Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: '',
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      console.log('Обнова');
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+  componentDidMount() {
+    const getStorageContacts = localStorage.getItem('contacts');
+    const parsStorageContacts = JSON.parse(getStorageContacts);
+    if (getStorageContacts) {
+      this.setState({ contacts: parsStorageContacts });
+    }
+
+    // console.log(loc)
+  }
 
   addContact = contact => {
     this.setState({
@@ -35,7 +46,7 @@ export default class Mobile extends React.Component {
     );
   };
 
-  checkName = (newName, numbers) => {
+  onCheckName = (newName, numbers) => {
     return this.state.contacts.some(
       ({ name }) => name === Object.values(newName).join(''),
     );
@@ -53,7 +64,7 @@ export default class Mobile extends React.Component {
     return (
       <div className={s.container}>
         <h1 className={s.headingForm}>Телефонна книга</h1>
-        <Form onSubmit={this.addContact} contactList={this.checkName} />
+        <Form onSubmit={this.addContact} contactList={this.onCheckName} />
         <h2 className={s.contactList}>Контакти</h2>
         <SearchContact
           velue={this.state.filter}

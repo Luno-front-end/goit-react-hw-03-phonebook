@@ -14,7 +14,18 @@ export default class Form extends Component {
   };
 
   addContact = e => {
+    const lengthInputNemeChech = this.state.name.length;
+    const lengthInputNumberChech = this.state.number.length;
     e.preventDefault();
+    if (lengthInputNemeChech < 2 || lengthInputNemeChech > 10) {
+      alert('Введіть ім"я більше 1-го символа і не більше 10');
+      return;
+    }
+    if (lengthInputNumberChech < 7 || lengthInputNumberChech > 10) {
+      alert('Введіть номер більше 7-ми цифр і не більше 10');
+      return;
+    }
+    // if (this.checkValue())
 
     const checkName = this.props.contactList({ name: this.state.name });
     if (checkName) {
@@ -30,6 +41,10 @@ export default class Form extends Component {
     });
     this.resetInputValues();
   };
+
+  // checkValue = () => {
+
+  // };
 
   resetInputValues = () => {
     this.setState({ name: '', number: '' });
@@ -57,6 +72,7 @@ export default class Form extends Component {
         </label>
         <input
           id={idNumber}
+          placeholder="(0xx) xxx-xx-xx"
           type="tel"
           pattern="^[ 0-9]+$"
           name="number"

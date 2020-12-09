@@ -9,7 +9,10 @@ export default function СontactList({ contactList, onDeleted }) {
       {contactList.map(({ id, name, number }) => {
         return (
           <li key={id}>
-            {name}: {number}
+            <span>{name}: </span>
+            <span>
+              +38 <a href={`tel: ${number}`}>{number}</a>
+            </span>
             <button
               className={s.btnList}
               type="button"
